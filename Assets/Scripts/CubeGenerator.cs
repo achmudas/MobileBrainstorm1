@@ -18,7 +18,7 @@ public class CubeGenerator : MonoBehaviour {
 	}
 
 	void CreateRandomCube() {
-		Instantiate(cube, new Vector3(16.9f, 0.98f, 0), Quaternion.identity);
+		Instantiate(cube, new Vector3(10.9f, 0.98f, -1), Quaternion.identity);
 	}
 
 	

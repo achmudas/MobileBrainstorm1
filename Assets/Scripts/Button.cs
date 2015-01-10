@@ -28,24 +28,31 @@ public class Button : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		if (collided) {
+			Debug.Log("Update collided");
+		}
 	}
 
 	void OnCollisionEnter(Collision collision) {
-		collidedGameObject = collision.gameObject;
-		Cube cubeScript = collidedGameObject.GetComponent <Cube>();
+		Cube cubeScript = collision.gameObject.GetComponent <Cube>();
 		if (cubeScript.color == color) {
+			
+			collidedGameObject = collision.gameObject;
 			collided = true;
+			Debug.Log("Collided " + collided);
 		}
 		
 	}
 
 	void OnCollisionExit(Collision collision){
+		Debug.Log("Collided exit " + collided);
 		collided = false;
 	}
 
 	void OnMouseDown() {
+		Debug.Log("Bool " + collided);
 		if (collided) {
+			Debug.Log("Destroyed");
 			Object.Destroy(collidedGameObject);
 			collided = false;
 		}	else {
