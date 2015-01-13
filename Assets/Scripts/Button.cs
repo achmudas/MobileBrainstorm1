@@ -7,13 +7,15 @@ public class Button : MonoBehaviour {
 	public string colorName;
 	public Color color = Color.red;
 	private bool collided = false;
-	private GameObject collidedGameObject;
+	//private GameObject collidedGameObject;
 	private Cube cubeToBeInstantianed;
 
 	private Dictionary<string, Color> colors;
+    private LinkedList<GameObject> collidedGameObjects;
 
 	// Use this for initialization
 	void Start () {
+        collidedGameObjects = new LinkedList<GameObject>();
 		colors = new Dictionary<string, Color>();
 		colors.Add("red", Color.red);
 		colors.Add("yellow", Color.yellow);
@@ -21,41 +23,48 @@ public class Button : MonoBehaviour {
 		colors.Add("green", Color.green);
 		if (colors.ContainsKey(colorName)) {
 			color = colors[colorName];
-     		renderer.material.color = color;
+            renderer.material.color = color;
      	} 
-		//gameObject.renderer.material.color = color;
+		
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (collided) {
-			Debug.Log("Update collided");
-		}
 	}
 
 	void OnCollisionEnter(Collision collision) {
-		Cube cubeScript = collision.gameObject.GetComponent <Cube>();
-		if (cubeScript.color == color) {
-			
-			collidedGameObject = collision.gameObject;
-			collided = true;
-			Debug.Log("Collided " + collided);
+        GameObject tempCube = collision.gameObject;
+		Cube cubeScript = tempCube.GetComponent <Cube>();
+		if (cubeScript.color.Equals(color)) {
+            //Debug.Log("Collided " + collided);
+            collided = true;
+            collidedGameObjects.AddLast(tempCube);
 		}
 		
 	}
 
 	void OnCollisionExit(Collision collision){
-		Debug.Log("Collided exit " + collided);
-		collided = false;
+		Debug.Log("Collided object on exit " + collision);
+        LinkedListNode<GameObject> objectToRemove = collidedGameObjects.Find(collision.gameObject);
+        if (objectToRemove != null) collidedGameObjects.Remove(objectToRemove);
+        if (collidedGameObjects.Count == 0)
+        {
+            collided = false;
+        }
+        
 	}
 
 	void OnMouseDown() {
-		Debug.Log("Bool " + collided);
+		//Debug.Log("Bool " + collided);
 		if (collided) {
 			Debug.Log("Destroyed");
-			Object.Destroy(collidedGameObject);
-			collided = false;
-		}	else {
+			Object.Destroy(collidedGameObjects.First.Value);
+            collidedGameObjects.Remove(collidedGameObjects.First.Value);
+            if (collidedGameObjects.Count == 0)
+            {
+                collided = false;
+            }
+   		}	else {
 			
 		}
 	}

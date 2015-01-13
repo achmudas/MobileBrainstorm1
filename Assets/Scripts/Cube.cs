@@ -7,7 +7,8 @@ public class Cube : MonoBehaviour {
 	private Dictionary<int, Color> colors;
 	public Color color;
 
-	public float speed = 0.05f;
+	public float speedBeginning = 0.01f;
+    public float speedEnding = 0.06f;
 	private Vector2 position;
 
 	// Use this for initialization
@@ -18,10 +19,9 @@ public class Cube : MonoBehaviour {
 		colors.Add(2, Color.yellow);
 		colors.Add(3, Color.blue);
 		colors.Add(4, Color.green);
-	//	color = GenerateRandomColor();
-		gameObject.renderer.material.color = Color.yellow;
-
-		speed = GenerateRandomSpeed();
+		color = GenerateRandomColor();
+        renderer.material.color = color;
+		speedBeginning = GenerateRandomSpeed();
 		position = transform.position;
 	}
 	
@@ -38,13 +38,13 @@ public class Cube : MonoBehaviour {
 	}
 
 	float GenerateRandomSpeed() {
-		float randomSpeed = Random.Range(0.04f, 0.04f);
+        float randomSpeed = Random.Range(speedBeginning, speedEnding);
 		return randomSpeed;
 	}
 
 
 	void FixedUpdate() {
-		position = new Vector2 (position.x - speed, position.y);
+		position = new Vector2 (position.x - speedBeginning, position.y);
 		transform.position = position;
 	}
 

@@ -8,7 +8,7 @@ public class CubeGenerator : MonoBehaviour {
 	
 
 	void Start() {
-	    InvokeRepeating("CreateRandomCube", .35f, 1.25F);
+	    InvokeRepeating("CreateRandomCube", .15f, 1.0F);
 	  
 	}
 	
