@@ -7,14 +7,18 @@ public class Button : MonoBehaviour {
 	public string colorName;
 	public Color color = Color.red;
 	private bool collided = false;
-	//private GameObject collidedGameObject;
 	private Cube cubeToBeInstantianed;
 
 	private Dictionary<string, Color> colors;
     private LinkedList<GameObject> collidedGameObjects;
 
+    private ScoreCalculator scoreCalculator;
+
+
+
 	// Use this for initialization
 	void Start () {
+        scoreCalculator = GameObject.FindWithTag("scoreCalculator").gameObject.GetComponent<ScoreCalculator>();
         collidedGameObjects = new LinkedList<GameObject>();
 		colors = new Dictionary<string, Color>();
 		colors.Add("red", Color.red);
@@ -44,7 +48,7 @@ public class Button : MonoBehaviour {
 	}
 
 	void OnCollisionExit(Collision collision){
-		Debug.Log("Collided object on exit " + collision);
+		//Debug.Log("Collided object on exit " + collision);
         LinkedListNode<GameObject> objectToRemove = collidedGameObjects.Find(collision.gameObject);
         if (objectToRemove != null) collidedGameObjects.Remove(objectToRemove);
         if (collidedGameObjects.Count == 0)
@@ -57,7 +61,8 @@ public class Button : MonoBehaviour {
 	void OnMouseDown() {
 		//Debug.Log("Bool " + collided);
 		if (collided) {
-			Debug.Log("Destroyed");
+			//Debug.Log("Destroyed");
+            scoreCalculator.numberOfDestroyedCubes++;
 			Object.Destroy(collidedGameObjects.First.Value);
             collidedGameObjects.Remove(collidedGameObjects.First.Value);
             if (collidedGameObjects.Count == 0)
@@ -68,5 +73,8 @@ public class Button : MonoBehaviour {
 			
 		}
 	}
+
+
+
 
 }

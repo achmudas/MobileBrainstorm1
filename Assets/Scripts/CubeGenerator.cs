@@ -8,8 +8,7 @@ public class CubeGenerator : MonoBehaviour {
 	
 
 	void Start() {
-	    InvokeRepeating("CreateRandomCube", .15f, 1.0F);
-	  
+	    InvokeRepeating("CreateRandomCube", .15f, 1.0F);  
 	}
 	
 	// Update is called once per frame
