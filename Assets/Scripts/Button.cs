@@ -14,10 +14,16 @@ public class Button : MonoBehaviour {
 
     private ScoreCalculator scoreCalculator;
 
+    private GUIStyle guiStyle = new GUIStyle();
+    private bool gameOver = false;
+
 
 
 	// Use this for initialization
 	void Start () {
+        guiStyle.fontSize = 50;
+        guiStyle.normal.textColor = Color.black;
+
         scoreCalculator = GameObject.FindWithTag("scoreCalculator").gameObject.GetComponent<ScoreCalculator>();
         collidedGameObjects = new LinkedList<GameObject>();
 		colors = new Dictionary<string, Color>();
@@ -48,15 +54,28 @@ public class Button : MonoBehaviour {
 	}
 
 	void OnCollisionExit(Collision collision){
-		//Debug.Log("Collided object on exit " + collision);
-        LinkedListNode<GameObject> objectToRemove = collidedGameObjects.Find(collision.gameObject);
-        if (objectToRemove != null) collidedGameObjects.Remove(objectToRemove);
-        if (collidedGameObjects.Count == 0)
-        {
-            collided = false;
-        }
+        gameOver = true;
+        //Debug.Log("Game over " + gameOver);
+        //LinkedListNode<GameObject> objectToRemove = collidedGameObjects.Find(collision.gameObject);
+        //if (objectToRemove != null) collidedGameObjects.Remove(objectToRemove);
+        //if (collidedGameObjects.Count == 0)
+        //{
+        //    collided = false;
+        //}
         
 	}
+
+    void OnGUI()
+    {
+
+        if (gameOver)
+        {
+            Application.LoadLevel("GameOver");
+            //GUI.Label(new Rect(450, 100, 300, 50), "GAME OVER!!!!", guiStyle);
+            //Time.timeScale = 0;
+            
+        }
+    }
 
 	void OnMouseDown() {
 		//Debug.Log("Bool " + collided);
