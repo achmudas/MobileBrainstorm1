@@ -14,6 +14,6 @@ public class ScoreCalculator : MonoBehaviour {
 
     void OnGUI()
     {
-        GUI.Label(new Rect(650, 100, 300, 50), numberOfDestroyedCubes.ToString(), guiStyle);
+        GUI.Label(new Rect(450, 100, 300, 50), numberOfDestroyedCubes.ToString(), guiStyle);
     }
 }

@@ -21,6 +21,7 @@ public class Button : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
         guiStyle.fontSize = 50;
         guiStyle.normal.textColor = Color.black;
 
@@ -46,7 +47,6 @@ public class Button : MonoBehaviour {
         GameObject tempCube = collision.gameObject;
 		Cube cubeScript = tempCube.GetComponent <Cube>();
 		if (cubeScript.color.Equals(color)) {
-            //Debug.Log("Collided " + collided);
             collided = true;
             collidedGameObjects.AddLast(tempCube);
 		}
@@ -54,15 +54,7 @@ public class Button : MonoBehaviour {
 	}
 
 	void OnCollisionExit(Collision collision){
-        gameOver = true;
-        //Debug.Log("Game over " + gameOver);
-        //LinkedListNode<GameObject> objectToRemove = collidedGameObjects.Find(collision.gameObject);
-        //if (objectToRemove != null) collidedGameObjects.Remove(objectToRemove);
-        //if (collidedGameObjects.Count == 0)
-        //{
-        //    collided = false;
-        //}
-        
+        gameOver = true;        
 	}
 
     void OnGUI()
@@ -70,17 +62,14 @@ public class Button : MonoBehaviour {
 
         if (gameOver)
         {
+            PlayerPrefs.SetInt("totalPoints", scoreCalculator.numberOfDestroyedCubes);
             Application.LoadLevel("GameOver");
-            //GUI.Label(new Rect(450, 100, 300, 50), "GAME OVER!!!!", guiStyle);
-            //Time.timeScale = 0;
             
         }
     }
 
 	void OnMouseDown() {
-		//Debug.Log("Bool " + collided);
 		if (collided) {
-			//Debug.Log("Destroyed");
             scoreCalculator.numberOfDestroyedCubes++;
 			Object.Destroy(collidedGameObjects.First.Value);
             collidedGameObjects.Remove(collidedGameObjects.First.Value);
